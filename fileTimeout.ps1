@@ -4,7 +4,7 @@
 	 Created on:   	9/21/2015
 	 Created by:   	Colin McLeod
 	 Filename:      fileTimeout.ps1
-	 Version:		0.0.8
+	 Version:	0.0.8
 	===========================================================================
 	.DESCRIPTION
 		This module was written to suplement custom backup scripts, unfortunately, scripts required to replace unreliable proprietary vendor backup processes. 
