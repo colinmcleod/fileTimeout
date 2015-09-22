@@ -48,8 +48,22 @@
 	-LogPath
 		The path you want the log to write to, e.g C:\var\logs\myapp\log.txt
 
-		Default value: 
+		Default value: C:\logs\Powershell_fileTimeout_<current date>.log
 
+	-To
+		Address to send email error notifications to, e.g. me@mydomain.com
+
+		Default value: No default.
+
+	-From
+		Address to send email error notifications from, e.g. script@mydomain.com
+
+		Default value: No default.
+
+	-SMTP
+		SMTP server to use when sending email error notificaitons, e.g. mail.mydomain.com
+
+		Default value: No default.
 	.EXAMPLE
 
 	fileTime -Path \\server\files -Seconds 180 -LoopThreshold 10 -FileThreshold 2 -LogPath C:\logs\mylog.log
@@ -69,9 +83,9 @@ function fileTimeout
 		[string]$LoopThreshold,
 		[string]$FileThreshold,
 		[string]$LogPath,
-		[string]$From,
 		[string]$To,
-		[string]$smtp
+		[string]$From,
+		[string]$SMTP
 	)
 	
 	# --- Global Variables --- #
@@ -148,19 +162,38 @@ function fileTimeout
 	function sendMail
 	{
 		
-		# --- Log this action --- #
+		$NullTo = IsNull($To)
+		$NullFrom = IsNull($From)
+		$NullSMTP = IsNull($SMTP)
 		
-		logWrite = "$($logStamp): Email Notification"
-		logWrite = "From: $($From)"
-		logWrite = "To: $($To)"
-		logWrite = "Subject: $($Subject)"
-		
-		$Body = Get-Content $logfile
-		$Attachement = $logfile
-		
-		# --- Send Message --- #
-		
-		Send-MailMessage -From $From -To $To -subject $Subject -Body $Body -Attachments $Attachment -Priority High -DeliveryNotificationOption None -smtpServer $smtp
+		If ($NullSMTP -eq $true)
+		{
+			logWrite "$($logStamp): SMTP server not specified, cannot send error notification."
+		}
+		ElseIf ($NullTo -eq $true)
+		{
+			logWrite "$($logStamp): To address not specified, cannot send error notification."
+		}
+		Elseif ($NullFrom -eq $true)
+		{
+			logWrite "$($logStamp): From address not specified, cannot send error notification."
+		}
+		Else
+		{
+			# --- Log this action --- #
+			
+			logWrite = "$($logStamp): Email Notification"
+			logWrite = "From: $($From)"
+			logWrite = "To: $($To)"
+			logWrite = "Subject: $($Subject)"
+			
+			$Body = Get-Content $LogPath
+			$Attachement = $LogPath
+			
+			# --- Send Message --- #
+			
+			Send-MailMessage -From $From -To $To -subject $Subject -Body $Body -Attachments $Attachment -Priority High -DeliveryNotificationOption None -smtpServer $SMTP
+		}
 	}
 	
 	
