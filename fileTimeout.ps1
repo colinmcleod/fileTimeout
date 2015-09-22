@@ -4,7 +4,7 @@
 	 Created on:   	9/21/2015
 	 Created by:   	Colin McLeod
 	 Filename:      fileTimeout.ps1
-	 Version:	0.0.8
+	 Version:	0.1.1
 	===========================================================================
 	.DESCRIPTION
 		This module was written to suplement custom backup scripts, unfortunately, scripts required to replace unreliable proprietary vendor backup processes. 
@@ -23,7 +23,7 @@
 	
 	.USAGE
 	
-	fileTimeout -Path <path> -Seconds <0-99999999> -LoopThreshold <0-99999999> -FileThreshold <0-99999999> -LogPath <path>
+	fileTimeout -Path <path> -Seconds <0-99999999> -LoopThreshold <0-99999999> -FileThreshold <0-99999999> -LogPath <path> -To <email address> -From <email address> -SMTP <server address>
 
 	-Path
 		The path you want to check, e.g. C:\Backup\App
@@ -51,19 +51,20 @@
 		Default value: C:\logs\Powershell_fileTimeout_<current date>.log
 
 	-To
-		Address to send email error notifications to, e.g. me@mydomain.com
+		Address to send email error notifications to, e.g. me@mydomain.com. If this isn't specified emails will not send.
 
 		Default value: No default.
 
 	-From
-		Address to send email error notifications from, e.g. script@mydomain.com
+		Address to send email error notifications from, e.g. script@mydomain.com. If this isn't specified emails will not send.
 
 		Default value: No default.
 
 	-SMTP
-		SMTP server to use when sending email error notificaitons, e.g. mail.mydomain.com
+		SMTP server to use when sending email error notificaitons, e.g. mail.mydomain.com. If this isn't specified emails will not send.
 
 		Default value: No default.
+
 	.EXAMPLE
 
 	fileTime -Path \\server\files -Seconds 180 -LoopThreshold 10 -FileThreshold 2 -LogPath C:\logs\mylog.log
