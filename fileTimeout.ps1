@@ -68,7 +68,10 @@ function fileTimeout
 		[string]$Seconds,
 		[string]$LoopThreshold,
 		[string]$FileThreshold,
-		[string]$LogPath
+		[string]$LogPath,
+		[string]$From,
+		[string]$To,
+		[string]$smtp
 	)
 	
 	# --- Global Variables --- #
@@ -144,12 +147,6 @@ function fileTimeout
 	
 	function sendMail
 	{
-		
-		# --- Set Mail Variables --- #
-		
-		$From = "CDR Micros Backup <no-reply@cnty.com>"
-		$To = "CDR IT <colin.mcleod@cnty.com>"
-		$smtp = "mail.cnty.io"
 		
 		# --- Log this action --- #
 		
